@@ -1,19 +1,23 @@
 from random import randint
 
 MAX_BUNCHES = 5
+MAX_BUNCHES_SIZE = 20
 
-_holder = []
+_holder = {}
+_sorted_key = None
+
 
 def put_stones():
     """
     Разложить камни
     :return:
     """
-    global _holder
-    _holder = []
+    global _holder, _sorted_key
+    _holder = {}
 
-    for i in range(MAX_BUNCHES):
-        _holder.append(randint(1 ,20))
+    for i in range(1, MAX_BUNCHES + 1):
+        _holder[i] = randint(1, MAX_BUNCHES_SIZE)
+    _sorted_key = sorted(_holder.keys())
 
 
 def take_from_bunch(position, quantity):
@@ -23,9 +27,11 @@ def take_from_bunch(position, quantity):
     :param quantity: количество
     :return:
     """
-    if 1 <= position <= len(_holder):
-        _holder[position - 1] -= quantity
-
+    if position in _holder:
+        _holder[position] -= quantity
+        return True
+    else:
+        return False
 
 
 def get_banches():
@@ -33,8 +39,11 @@ def get_banches():
     получить позиции камней
     :return:
     """
-    return _holder
+    res = []
+    for key in _sorted_key:
+        res.append(_holder[key])
+    return res
 
 def is_gameover():
     """ Если конец игры """
-    return sum(_holder) == 0
+    return sum(_holder.values()) == 0

@@ -14,11 +14,12 @@ while True:
     pos = input(colored('Откуда берем? ', color=user_color, force_color=True))
     qua = input(colored('Сколько берем? ', color=user_color, force_color=True))
 
-    take_from_bunch(position=int(pos), quantity=int(qua)) #Сделали ход
-
+    step_succesed = take_from_bunch(position=int(pos), quantity=int(qua)) #Сделали ход
+    if step_succesed:
+        user_number = 2 if user_number == 1 else 1
+    else:
+        cprint('Невозможный ход', color='red', force_color=True)
     if is_gameover():
         break
-
-    user_number = 2 if user_number == 1 else 1
 
 cprint(f'Выйграл игрок {user_number}', color='red', force_color=True)
